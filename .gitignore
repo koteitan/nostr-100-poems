@@ -1,0 +1,3 @@
+tools/collect-waka/.cache/
+tools/collect-waka/blocksplit/blocksplit
+tmp/
