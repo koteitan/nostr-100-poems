@@ -2,6 +2,14 @@
 // surface + hiragana yomi per block. Logic mirrors github.com/mattn/go-haiku
 // MatchWithOpt so it agrees with the haikubot's matching decision.
 //
+// The tokenization rules and the helper functions
+// (dictIdx, contains, isEnd, isIgnore, isWord, countChars and the regex set
+//  reWord, reIgnoreText, reIgnoreChar, reKana)
+// are derived from github.com/mattn/go-haiku/haiku.go.
+// Per the upstream README, the project is released under the MIT License
+// with Yasuhiro Matsumoto (a.k.a. mattn) listed as the author.
+// See ../../../LICENSES/go-haiku.MIT for the full license text.
+//
 // Input  (stdin, JSONL): {"text": "...", "note1": "..."}
 // Output (stdout, TSV) : 1 \t s0 \t s1 \t s2 \t s3 \t s4 \t y0 \t y1 \t y2 \t y3 \t y4 \t note1
 // Lines that don't match 5-7-5-7-7 are dropped (and reported on stderr).

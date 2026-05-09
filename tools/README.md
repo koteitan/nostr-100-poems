@@ -42,3 +42,8 @@ flowchart TD
 ## 人力チェック
 
 `waka.tsv` の 1 列目フラグを `1` (採用) / `0` (不採用) に編集し、`data/waka.tsv` として保存する。
+
+## クレジット
+
+- 5-7-5-7-7 判定および形態素解析ロジックは [`mattn/go-haiku`](https://github.com/mattn/go-haiku) (上流 README で MIT 宣言、著者: Yasuhiro Matsumoto) に由来します。`tools/collect-waka/blocksplit/main.go` のうち補助関数・正規表現群は同ライブラリから複製、`splitTanka` のループは `MatchWithOpt` を派生・改変したものです。[`LICENSES/go-haiku.MIT`](../LICENSES/go-haiku.MIT) を参照。
+- 辞書 `kagome-dict-ipa-neologd` は Go モジュール依存として haikubot と同じものを利用 (各々のライセンスは依存パッケージに従う)。
