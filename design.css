@@ -1,0 +1,157 @@
+:root {
+  --border-color: #14532d;
+  --border-width: 8px;
+  --card-w: 320px;
+  --card-h: 460px;
+  --serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "MS PMincho", "Noto Serif JP", serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 24px;
+  background: #f5f1e8;
+  color: #222;
+  font-family: var(--serif);
+}
+
+header {
+  margin-bottom: 16px;
+}
+
+header h1 {
+  margin: 0 0 4px 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.hint {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+}
+
+#cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pair {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* ===== 共通カード枠 ===== */
+.card {
+  border: var(--border-width) solid var(--border-color);
+  background: #fffaf0;
+  font-family: var(--serif);
+  position: relative;
+}
+
+/* ===== 読み札 (yomi) ===== */
+.yomi {
+  width: var(--card-w);
+  height: var(--card-h);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.yomi:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.yomi-upper {
+  flex: 1 1 auto;
+  padding: 14px 12px 8px;
+  writing-mode: vertical-rl;
+  overflow: hidden;
+}
+
+.yomi-upper .col {
+  display: block;
+  font-size: 30px;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  /* in vertical-rl, block-end is the left edge — so this puts a gap
+     between each column and the next column to its left. */
+  margin-block-end: 10px;
+}
+
+.yomi-upper .col:last-child {
+  margin-block-end: 0;
+}
+
+.yomi-upper .col.author {
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.yomi-lower {
+  flex: 0 0 auto;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.yomi-lower img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+/* ===== 取り札 (tori) ===== */
+.tori {
+  width: var(--card-w);
+  height: var(--card-h);
+  padding: 20px 16px;
+  background: #fffaf0;
+}
+
+.tori-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.tori-grid .ch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  line-height: 1;
+  font-family: var(--serif);
+  color: #111;
+}
+
+/* ===== ローディング・エラー ===== */
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.35);
+  font-size: 12px;
+  width: 100%;
+  height: 100%;
+}
+
+.error {
+  color: #b00020;
+  font-size: 12px;
+  padding: 8px;
+}

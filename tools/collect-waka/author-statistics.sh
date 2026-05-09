@@ -22,6 +22,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 INPUT="${1:-$REPO_ROOT/waka.jsonl}"
 WAKA_TSV="${WAKA_TSV:-$REPO_ROOT/data/waka.tsv}"
 AUTHOR_TSV="${AUTHOR_TSV:-$REPO_ROOT/data/author.tsv}"
+NOTE2AUTHOR_TSV="${NOTE2AUTHOR_TSV:-$REPO_ROOT/data/note2author.tsv}"
 
 CACHE_DIR="$SCRIPT_DIR/.cache"
 EVENT_CACHE="$CACHE_DIR/events-by-id.jsonl"
@@ -211,14 +212,14 @@ fi
 mkdir -p "$(dirname "$AUTHOR_TSV")"
 
 python3 - \
-  "$WAKA_TSV" "$TMP/originalid2author.tsv" "$TMP/profile-fields.tsv" "$AUTHOR_TSV" \
+  "$WAKA_TSV" "$TMP/originalid2author.tsv" "$TMP/profile-fields.tsv" "$AUTHOR_TSV" "$NOTE2AUTHOR_TSV" \
 <<'PY'
 import sys
 from collections import OrderedDict
 
 import bech32
 
-waka_tsv, oid2au_tsv, profile_tsv, out_path = sys.argv[1:5]
+waka_tsv, oid2au_tsv, profile_tsv, out_path, note2au_path = sys.argv[1:6]
 
 
 def decode_note1(s: str) -> str | None:
@@ -256,6 +257,7 @@ with open(profile_tsv, 'r', encoding='utf-8') as f:
 # Walk adopted (flag=1) rows of waka.tsv, count waka per author preserving order.
 counts: 'OrderedDict[str, int]' = OrderedDict()
 unresolved: list[str] = []
+note2npub: list[tuple[str, str]] = []
 with open(waka_tsv, 'r', encoding='utf-8') as f:
     for line in f:
         cols = line.rstrip('\n').split('\t')
@@ -273,6 +275,7 @@ with open(waka_tsv, 'r', encoding='utf-8') as f:
             unresolved.append(note1)
             continue
         counts[au] = counts.get(au, 0) + 1
+        note2npub.append((note1, encode_npub(au)))
 
 # Order: by count desc, ties by first-encounter (OrderedDict insertion).
 ordered = sorted(counts.items(), key=lambda kv: (-kv[1], list(counts).index(kv[0])))
@@ -283,7 +286,12 @@ with open(out_path, 'w', encoding='utf-8') as out:
         name, dn, pic = profiles.get(pk, ('', '', ''))
         out.write(f'{npub}\t{name}\t{dn}\t{pic}\n')
 
+with open(note2au_path, 'w', encoding='utf-8') as out:
+    for note1, npub in note2npub:
+        out.write(f'{note1}\t{npub}\n')
+
 print(f'[author.tsv] {len(ordered)} unique authors -> {out_path}', file=sys.stderr)
+print(f'[note2author.tsv] {len(note2npub)} mappings -> {note2au_path}', file=sys.stderr)
 if unresolved:
     print(f'[author.tsv] {len(unresolved)} note1 unresolved (skipped)', file=sys.stderr)
 PY
