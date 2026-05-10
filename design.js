@@ -209,10 +209,12 @@ function computePalette(img) {
   const r = (r4 << 4) | 0x8;
   const g = (g4 << 4) | 0x8;
   const b = (b4 << 4) | 0x8;
-  const fr = 255 - r, fg = 255 - g, fb = 255 - b;
+  // fg: pure black on light bg, pure white on dark bg
+  // (the one farther from the bg average luminance).
+  const f = (r + g + b) / 3 > 127.5 ? 0 : 255;
   return {
     bg: `rgb(${r}, ${g}, ${b})`,
-    fg: `rgb(${fr}, ${fg}, ${fb})`,
+    fg: `rgb(${f}, ${f}, ${f})`,
   };
 }
 
