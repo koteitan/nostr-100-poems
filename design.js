@@ -1,14 +1,14 @@
 // nostr 百人一首 — design preview
 //
 // Inputs (fetched at runtime):
-//   data/waka.tsv         (12 cols: flag, b0..b4 surface, b0..b4 yomi, note1)
+//   data/wakadata.tsv     (12 cols: flag, b0..b4 surface, b0..b4 yomi, note1)
 //   data/note2author.tsv  (note1, npub1)
 //   data/author.tsv       (npub1, name, display_name, picture)
 //
 // Output: a list of <yomi-card, tori-card> pairs.
 
 const TSV = {
-  WAKA: 'data/waka.tsv',
+  WAKA: 'data/wakadata.tsv',
   NOTE2AUTHOR: 'data/note2author.tsv',
   AUTHOR: 'data/author.tsv',
 };

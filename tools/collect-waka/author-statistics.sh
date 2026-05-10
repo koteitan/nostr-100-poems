@@ -20,7 +20,7 @@ set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 INPUT="${1:-$REPO_ROOT/waka.jsonl}"
-WAKA_TSV="${WAKA_TSV:-$REPO_ROOT/data/waka.tsv}"
+WAKA_TSV="${WAKA_TSV:-$REPO_ROOT/data/wakadata.tsv}"
 AUTHOR_TSV="${AUTHOR_TSV:-$REPO_ROOT/data/author.tsv}"
 NOTE2AUTHOR_TSV="${NOTE2AUTHOR_TSV:-$REPO_ROOT/data/note2author.tsv}"
 
